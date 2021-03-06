@@ -1,6 +1,8 @@
 package pl.coderslab.beans.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.beans.dao.BookService;
 import pl.coderslab.beans.dao.MemoryBookService;
 import pl.coderslab.beans.model.Book;
@@ -30,7 +32,7 @@ public class BookController {
 
     @RequestMapping(value = {"/{id:\\d+}"}, method = RequestMethod.GET)
     public Book book(@PathVariable("id") long id) {
-        return bookService.read(id).orElseGet(()->new Book(id, "","","","", ""));
+        return bookService.read(id).orElseThrow(() -> {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");});
     }
 
     @RequestMapping(value={""}, method=RequestMethod.POST)
