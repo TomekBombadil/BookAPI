@@ -40,7 +40,7 @@ public class MemoryBookService {
     }
 
     public void update(Book book) {
-        Book foundBook = read(book.getId()).get();
+        Book foundBook = read(book.getId()).orElse(null);
         if (foundBook != null) {
             foundBook.setIsbn(book.getIsbn());
             foundBook.setTitle(book.getTitle());
@@ -51,7 +51,7 @@ public class MemoryBookService {
     }
 
     public void delete(long id) {
-        Book foundBook = read(id).get();
+        Book foundBook = read(id).orElse(null);
         if (foundBook != null) {
             bookList.remove(foundBook);
         }
