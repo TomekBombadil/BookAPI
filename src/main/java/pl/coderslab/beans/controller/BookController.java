@@ -42,7 +42,7 @@ public class BookController {
         memoryBookService.update(book);
     }
 
-    @RequestMapping(value={"/{id:\\d+"}, method=RequestMethod.DELETE)
+    @RequestMapping(value={"/{id:\\d+}"}, method=RequestMethod.DELETE)
     public void deleteBook(@PathVariable("id") long id){
         memoryBookService.delete(id);
     }
