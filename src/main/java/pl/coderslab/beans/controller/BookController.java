@@ -1,9 +1,6 @@
 package pl.coderslab.beans.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.beans.dao.MemoryBookService;
 import pl.coderslab.beans.model.Book;
 
@@ -35,4 +32,13 @@ public class BookController {
         return memoryBookService.read(id).orElseGet(()->new Book(id, "","","","", ""));
     }
 
+    @RequestMapping(value={""}, method=RequestMethod.POST)
+    public Book addBook(@RequestBody Book book){
+        return memoryBookService.create(book);
+    }
+
+    @RequestMapping(value={""}, method=RequestMethod.PUT)
+    public void editBook(@RequestBody Book book){
+        memoryBookService.update(book);
+    }
 }

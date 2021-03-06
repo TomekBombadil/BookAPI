@@ -8,13 +8,20 @@ public class Book {
     private String publisher;
     private String type;
 
-    public Book(Long id, String isbn, String title, String author, String publisher, String type) {
-        this.id = id;
+    public Book() {
+    }
+
+    public Book(String isbn, String title, String author, String publisher, String type) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.type = type;
+    }
+
+    public Book(long id, String isbn, String title, String author, String publisher, String type) {
+        this(isbn, title, author, publisher, type);
+        this.id = id;
     }
 
     public Long getId() {
