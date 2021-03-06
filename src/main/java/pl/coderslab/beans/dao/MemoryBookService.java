@@ -11,9 +11,10 @@ import java.util.Optional;
 public class MemoryBookService {
 
     private List<Book> bookList;
+    private static long nextId = 7L;
 
-    public MemoryBookService(){
-        bookList=new ArrayList<>();
+    public MemoryBookService() {
+        bookList = new ArrayList<>();
         bookList.add(new Book(2L, "56566569", "Book2", "Author2", "Publisher2", "Sci-Fi"));
         bookList.add(new Book(3L, "67786887", "Book3", "Author3", "Publisher3", "Action"));
         bookList.add(new Book(4L, "43433456", "Book4", "Author4", "Publisher4", "Cooking"));
@@ -21,17 +22,24 @@ public class MemoryBookService {
         bookList.add(new Book(6L, "13245655", "Book6", "Author6", "Publisher6", "Hobby"));
     }
 
-    public List<Book> findAll(){
+    public List<Book> findAll() {
         return bookList;
     }
 
-    public Optional<Book> read(long id){
+    public Optional<Book> read(long id) {
         return bookList.stream()
-                .filter(book->id==(long) book.getId())
+                .filter(book -> id == (long) book.getId())
                 .findFirst();
     }
 
-    public void update(Book book){
+    public Book create(Book book) {
+        book.setId(nextId);
+        bookList.add(book);
+        nextId += 1;
+        return book;
+    }
+
+    public void update(Book book) {
         Book foundBook = read(book.getId()).get();
         if (foundBook != null) {
             foundBook.setIsbn(book.getIsbn());
@@ -42,9 +50,11 @@ public class MemoryBookService {
         }
     }
 
-    public void delete(long id){
+    public void delete(long id) {
         Book foundBook = read(id).get();
-        bookList.remove(foundBook);
+        if (foundBook != null) {
+            bookList.remove(foundBook);
+        }
     }
 
 }
