@@ -1,6 +1,7 @@
 package pl.coderslab.beans.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.beans.dao.BookService;
 import pl.coderslab.beans.dao.MemoryBookService;
 import pl.coderslab.beans.model.Book;
 
@@ -10,10 +11,10 @@ import java.util.List;
 @RequestMapping(value = {"/books"})
 public class BookController {
 
-    private MemoryBookService memoryBookService;
+    private BookService bookService;
 
-    public BookController(MemoryBookService memoryBookService) {
-        this.memoryBookService = memoryBookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @RequestMapping(value = {"/helloBook"})
@@ -24,26 +25,26 @@ public class BookController {
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public List<Book> allBooks() {
-        return memoryBookService.findAll();
+        return bookService.findAll();
     }
 
     @RequestMapping(value = {"/{id:\\d+}"}, method = RequestMethod.GET)
     public Book book(@PathVariable("id") long id) {
-        return memoryBookService.read(id).orElseGet(()->new Book(id, "","","","", ""));
+        return bookService.read(id).orElseGet(()->new Book(id, "","","","", ""));
     }
 
     @RequestMapping(value={""}, method=RequestMethod.POST)
     public Book addBook(@RequestBody Book book){
-        return memoryBookService.create(book);
+        return bookService.create(book);
     }
 
     @RequestMapping(value={""}, method=RequestMethod.PUT)
     public void editBook(@RequestBody Book book){
-        memoryBookService.update(book);
+        bookService.update(book);
     }
 
     @RequestMapping(value={"/{id:\\d+}"}, method=RequestMethod.DELETE)
     public void deleteBook(@PathVariable("id") long id){
-        memoryBookService.delete(id);
+        bookService.delete(id);
     }
 }
